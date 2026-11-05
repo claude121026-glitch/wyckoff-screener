@@ -1,0 +1,4 @@
+label,trades,win%,avg_R,total_R,profit_factor,max_dd_R,equity_x@1%risk,max_dd_%,avg_bars
+ALL,2,50.0,-0.136,-0.3,0.59,0.7,0.997,0.7,56.0
+LPSY,2,50.0,-0.136,-0.3,0.59,0.7,0.997,0.7,56.0
+shorts,2,50.0,-0.136,-0.3,0.59,0.7,0.997,0.7,56.0

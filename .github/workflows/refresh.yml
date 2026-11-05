@@ -1,0 +1,36 @@
+# Re-runs the crawler and screener every weekday evening and commits the new screener.csv,
+# so the Streamlit Cloud app always shows the latest results.
+name: Refresh Wyckoff screener
+
+on:
+  schedule:
+    - cron: "30 13 * * 1-5"   # 13:30 UTC = 19:00 IST, Monday-Friday (after Yahoo finalises the day)
+  workflow_dispatch: {}        # allows a manual run from the GitHub "Actions" tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Crawl NSE list and prices
+        run: python -I screener/fetch_data.py
+      - name: Run screener
+        run: python -I screener/run_screener.py
+      - name: Keep the last 30 reports
+        run: |
+          ls -d screener/reports/*/ | sort | head -n -30 | xargs -r rm -rf
+      - name: Commit results
+        run: |
+          git config user.name "screener-bot"
+          git config user.email "screener-bot@users.noreply.github.com"
+          git add screener/reports
+          git diff --cached --quiet || git commit -m "Screener update $(date -u +%Y-%m-%d)"
+          git push

@@ -1,0 +1,14 @@
+# large or regenerable data
+screener/data/prices/
+wyckoff_system/data_cache/
+screener/reports/*/charts/
+screener/reports/*/report.html
+
+# books and personal files (never publish copyrighted PDFs)
+*.pdf
+
+# Python / editor clutter
+__pycache__/
+*.pyc
+.venv/
+.claude/
