@@ -202,7 +202,8 @@ if q:
 f = f.sort_values(["action", "net_score"], ascending=[True, False])
 
 # summary
-st.caption(f"As of **{date}** · {len(df)} liquid NSE stocks analysed · price file `{price_file}`")
+src_note = f"price file `{price_file}`" if price_file else "charts load price history on demand from Yahoo Finance"
+st.caption(f"As of **{date}** · {len(df)} liquid NSE stocks analysed · {src_note}")
 cols = st.columns(4)
 for c, a in zip(cols, ACTIONS):
     c.metric(a, int((df["action"] == a).sum()))
